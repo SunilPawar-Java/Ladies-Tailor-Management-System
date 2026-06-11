@@ -19,18 +19,19 @@ public class ProductsService {
         this.productsRepository = productsRepository;
     }
 
-    public Products addProduct(ProductDao productDao) throws IOException {
+    public String addProduct(ProductDao productDao) throws IOException {
         Products product = new Products();
         product.setMainCategory(productDao.getMainCategory());
         product.setSubCategory(productDao.getSubCategory());
         product.setItemType(productDao.getItemType());
-        product.setName(productDao.getName());
+        product.setItemName(productDao.getItemName());
         product.setPrice(productDao.getPrice());
         product.setDescription(productDao.getDescription());
         product.setImageName(productDao.getImage().getOriginalFilename());
         product.setImageType(productDao.getImage().getContentType());
         product.setImage(productDao.getImage().getBytes());
-        return productsRepository.save(product);
+        productsRepository.save(product);
+        return "Product Added Successfully";
     }
 
     public List<Products> getAllProducts(){
@@ -40,18 +41,18 @@ public class ProductsService {
 
     public Products getProductById(Long id) {
         return productsRepository.findById(id)
-                .orElseThrow(()-> new ProductNotFoundException("Product couldn't find for id "+id));
+                .orElseThrow(()-> new ProductNotFoundException("No Product Found for id "+id));
     }
 
     public byte[] getProductImageById(Long id){
         return productsRepository.findById(id)
-                .orElseThrow(()-> new ProductNotFoundException("image not found for id "+id)).getImage();
+                .orElseThrow(()-> new ProductNotFoundException("Not Image Found for id "+id)).getImage();
     }
 
     @Transactional
     public List<Products> getProductsByMainCategory(String category){
         return productsRepository.findAllByMainCategory(category)
-                .stream().map(products -> {products.setImage(b); return products; }).toList();
+                .stream().peek(products -> products.setImage(b)).toList();
     }
 
     @Transactional
@@ -59,10 +60,51 @@ public class ProductsService {
         return productsRepository.findAllBySubCategory(category).stream().map(products -> {products.setImage(b); return products; }).toList();
     }
 
+    public List<Products> getProductsByItemName(String itemName){
+        return productsRepository.findAllByItemName(itemName)
+                .stream().map(products -> {products.setImage(b); return products; }).toList();
+
+    }
+
     @Transactional
     public List<Products> getProductsByItemType(String itemType){
         return productsRepository.findAllByItemType(itemType)
                 .stream().map(products -> {products.setImage(b); return products; }).toList();
+    }
+
+    public String updateProductPartially(Long id, ProductDao productDao) throws IOException {
+        Products product = getProductById(id);
+        if(productDao.getMainCategory() != null)
+            product.setMainCategory(productDao.getMainCategory());
+        if (productDao.getSubCategory() != null)
+            product.setSubCategory(productDao.getSubCategory());
+        if (productDao.getItemName() != null)
+            product.setItemName(productDao.getItemName());
+        if (productDao.getItemType() != null)
+            product.setItemType(productDao.getItemType());
+        if(productDao.getPrice() != null)
+            product.setPrice(productDao.getPrice());
+        if (productDao.getDescription() != null)
+            product.setDescription(productDao.getDescription());
+        if(productDao.getImage() != null)
+            product.setImage(productDao.getImage().getBytes());
+        productsRepository.save(product);
+        return "Product Updated Successfully";
+    }
+
+    public String updateProductFully(Long id, ProductDao productDao) throws IOException {
+        Products product = getProductById(id);
+        product.setMainCategory(productDao.getMainCategory());
+        product.setSubCategory(productDao.getSubCategory());
+        product.setItemType(productDao.getItemType());
+        product.setItemName(productDao.getItemName());
+        product.setPrice(productDao.getPrice());
+        product.setDescription(productDao.getDescription());
+        product.setImageName(productDao.getImage().getOriginalFilename());
+        product.setImageType(productDao.getImage().getContentType());
+        product.setImage(productDao.getImage().getBytes());
+        productsRepository.save(product);
+        return "Product Updated Successfully";
     }
 
     @Transactional
@@ -84,11 +126,15 @@ public class ProductsService {
     }
 
     @Transactional
+    public String deleteAllByItemName(String itemName){
+        productsRepository.deleteAll(getProductsByItemName(itemName));
+        return "All products successfully deleted for category "+itemName;
+    }
+
+    @Transactional
     public String deleteAllByItemType(String itemType){
         productsRepository.deleteAll(getProductsBySubCategory(itemType));
         return "All products successfully deleted for category "+itemType;
     }
-
-
 
 }

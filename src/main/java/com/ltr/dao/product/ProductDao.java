@@ -9,17 +9,11 @@ import org.springframework.web.multipart.MultipartFile;
 @NoArgsConstructor
 public class ProductDao {
 
-    @NonNull
     private String mainCategory;
-    @NonNull
     private String subCategory;
-    @NonNull
     private String itemType;
-    @NonNull
-    private String name;
-    @NonNull
+    private String itemName;
     private Double price;
     private String description;
-    @NonNull
     private MultipartFile image;
 }

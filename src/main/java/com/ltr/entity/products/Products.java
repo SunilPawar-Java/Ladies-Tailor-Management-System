@@ -22,8 +22,9 @@ public class Products {
     @Nonnull
     private String subCategory;
     @Nonnull
+    private String itemName;
+    @Nonnull
     private String itemType;
-    private String name;
     @Nonnull
     private Double price;
     private String description;

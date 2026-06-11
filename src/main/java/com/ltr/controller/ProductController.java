@@ -24,7 +24,7 @@ public class ProductController {
     public ResponseEntity<?> addProduct(@ModelAttribute ProductDao productDao) throws IOException {
             return ResponseEntity
                     .status(HttpStatus.CREATED)
-                    .body(Map.of("product", productsService.addProduct(productDao)));
+                    .body(Map.of("message", productsService.addProduct(productDao)));
     }
 
     @GetMapping("/all")
@@ -61,25 +61,38 @@ public class ProductController {
         return productsService.getProductsByItemType(category);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @PatchMapping("/{id}")
+    public ResponseEntity<?> updateProductPartially(@PathVariable Long id, @ModelAttribute ProductDao productDao) throws IOException {
+        return ResponseEntity.ok().body(Map.of("message", productsService.updateProductPartially(id, productDao)));
+    }
+
+    @PutMapping("/{id}")
+    public String updateProductFully(@PathVariable Long id, @ModelAttribute ProductDao productDao) throws IOException {
+        return productsService.updateProductFully(id, productDao);
+    }
+
+    @DeleteMapping("/{id}")
     public String deleteProductById(@PathVariable Long id){
         return productsService.deleteProductById(id);
     }
 
-    @DeleteMapping("/delete/maincategory/{category}")
+    @DeleteMapping("/maincategory/{category}")
     public String deleteProductsByMainCategory(@PathVariable String category){
         return productsService.deleteAllByMainCategory(category);
     }
 
-    @DeleteMapping("/delete/subcategory/{category}")
+    @DeleteMapping("/subcategory/{category}")
     public String deleteProductsBySubCategory(@PathVariable String category){
         return productsService.deleteAllBySubCategory(category);
     }
 
-    @DeleteMapping("/delete/itemtype/{itemType}")
+    @DeleteMapping("/itemname/{itemName}")
+    public String deleteProductsByItemName(@PathVariable String itemName){
+        return productsService.deleteAllByItemName(itemName);
+    }
+
+    @DeleteMapping("/itemtype/{itemType}")
     public String deleteProductsByItemType(@PathVariable String itemType){
         return productsService.deleteAllByItemType(itemType);
     }
-
-
 }
