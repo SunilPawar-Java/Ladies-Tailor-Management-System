@@ -1,0 +1,41 @@
+package com.ltr.entity.users;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.ltr.entity.orders.Orders;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import java.time.LocalDateTime;
+import java.util.List;
+
+@Entity
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+public class Users {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(nullable = false, unique = true)
+    private String username;
+    @Column(nullable = false)
+    private String password;
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private Role role;
+    @Column(nullable = false)
+    private String fullName;
+    @Column(nullable = false)
+    private String phone;
+    private String email;
+    @Column(nullable = false)
+    private LocalDateTime registrationDate;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @JsonManagedReference
+    private List<Orders> orders;
+}
