@@ -36,5 +36,6 @@ public class Users {
     private LocalDateTime registrationDate;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference("users-orders")
     private List<Orders> orders;
 }

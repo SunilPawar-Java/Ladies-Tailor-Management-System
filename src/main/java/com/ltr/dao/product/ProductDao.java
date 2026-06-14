@@ -9,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 @NoArgsConstructor
 public class ProductDao {
 
+    private Long id;
     private String mainCategory;
     private String subCategory;
     private String itemType;

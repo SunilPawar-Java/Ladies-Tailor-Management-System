@@ -1,8 +1,8 @@
 package com.ltr.entity.products;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.ltr.entity.orders.Orders;
-import jakarta.annotation.Nonnull;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -37,8 +37,4 @@ public class Products {
     @Lob
     @Column(nullable = false)
     private byte[] image;
-
-
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Orders> orders;
 }

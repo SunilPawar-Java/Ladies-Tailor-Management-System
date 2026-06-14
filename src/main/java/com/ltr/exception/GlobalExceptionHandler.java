@@ -1,5 +1,6 @@
 package com.ltr.exception;
 
+import com.ltr.exception.classes.OrderNotFoundException;
 import com.ltr.exception.classes.ProductNotFoundException;
 import com.ltr.exception.classes.UserNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -13,12 +14,20 @@ import java.util.Map;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(UserNotFoundException.class)
-    public ResponseEntity<?> handelUserNotFoundException(UserNotFoundException userNotFoundException){
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("message", userNotFoundException.getLocalizedMessage()));
+    public ResponseEntity<?> userNotFoundExceptionHandler(UserNotFoundException userNotFoundException){
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(Map.of("message", userNotFoundException.getLocalizedMessage()));
     }
 
     @ExceptionHandler(ProductNotFoundException.class)
-    public ResponseEntity<?> handleProductNotFoundException(ProductNotFoundException productNotFoundException){
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("message", productNotFoundException.getLocalizedMessage()));
+    public ResponseEntity<?> productNotFoundExceptionHandler(ProductNotFoundException productNotFoundException){
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(Map.of("message", productNotFoundException.getLocalizedMessage()));
+    }
+
+    @ExceptionHandler(OrderNotFoundException.class)
+    public ResponseEntity<?> orderNotFoundExceptionHandler(OrderNotFoundException orderNotFoundException){
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(Map.of("message", orderNotFoundException.getLocalizedMessage()));
     }
 }

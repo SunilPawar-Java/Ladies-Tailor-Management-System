@@ -1,4 +1,6 @@
 package com.ltr.entity.orders;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -39,5 +41,6 @@ public class BodyMeasurement {
     private Double instep;
 
     @OneToOne(mappedBy = "bodyMeasurement")
+    @JsonBackReference("orders-body_measurement")
     private Orders order;
 }

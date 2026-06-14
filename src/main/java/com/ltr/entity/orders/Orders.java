@@ -1,16 +1,14 @@
 package com.ltr.entity.orders;
-
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.ltr.entity.products.Products;
 import com.ltr.entity.users.Users;
-import jakarta.annotation.Nonnull;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Entity
 @Setter
@@ -22,20 +20,25 @@ public class Orders {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Nonnull
+    @Column(nullable = false)
     private Double totalAmount;
+    @Column(nullable = false)
     private LocalDateTime placedDate;
+    @Column(nullable = false)
     private String status;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @JsonBackReference("users-orders")
     private Users user;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "product_id")
+    @JsonBackReference("products-orders")
     private Products product;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "body_measurement_id")
+    @JsonManagedReference("orders-body_measurement")
     private BodyMeasurement bodyMeasurement;
 }

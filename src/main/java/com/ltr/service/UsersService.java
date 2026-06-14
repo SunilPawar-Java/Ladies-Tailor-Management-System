@@ -4,6 +4,7 @@ import com.ltr.dao.UsersDao;
 import com.ltr.entity.users.Role;
 import com.ltr.entity.users.Users;
 import com.ltr.exception.classes.UserNotFoundException;
+import com.ltr.mapper.Mapper;
 import com.ltr.repository.user.UsersRepository;
 import org.springframework.stereotype.Service;
 
@@ -33,13 +34,7 @@ public class UsersService {
     public UsersDao getUser(Long id){
         Users user = usersRepository.findById(id).orElseThrow(
                 () -> new UserNotFoundException("User Not Exists For User ID = " + id));
-        UsersDao usersDetails = new UsersDao();
-        usersDetails.setId(user.getId());
-        usersDetails.setFullName(user.getFullName());
-        usersDetails.setPhone(user.getPhone());
-        usersDetails.setEmail(user.getEmail());
-        usersDetails.setRegistrationDate(user.getRegistrationDate());
-        return usersDetails;
+        return Mapper.parseToUserDao(user);
     }
 
     public boolean isExistsByPhone(String phone){
@@ -55,4 +50,5 @@ public class UsersService {
         user.setRegistrationDate(LocalDateTime.now());
         return usersRepository.save(user);
     }
-}
+
+ }
