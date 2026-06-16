@@ -1,6 +1,6 @@
-package com.ltr.repository.user;
+package com.ltr.repository;
 
-import com.ltr.entity.users.Users;
+import com.ltr.module.Users;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

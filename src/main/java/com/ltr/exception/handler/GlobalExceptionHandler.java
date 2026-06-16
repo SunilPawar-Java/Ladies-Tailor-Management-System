@@ -1,8 +1,8 @@
-package com.ltr.exception;
+package com.ltr.exception.handler;
 
-import com.ltr.exception.classes.OrderNotFoundException;
-import com.ltr.exception.classes.ProductNotFoundException;
-import com.ltr.exception.classes.UserNotFoundException;
+import com.ltr.exception.OrderNotFoundException;
+import com.ltr.exception.ProductNotFoundException;
+import com.ltr.exception.UserNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;

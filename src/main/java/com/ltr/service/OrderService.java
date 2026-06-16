@@ -1,14 +1,15 @@
 package com.ltr.service;
 
-import com.ltr.dao.order.OrderDao;
-import com.ltr.entity.orders.Orders;
-import com.ltr.exception.classes.OrderNotFoundException;
-import com.ltr.exception.classes.ProductNotFoundException;
+import com.ltr.dao.OrderDao;
+import com.ltr.module.Orders;
+import com.ltr.exception.OrderNotFoundException;
+import com.ltr.exception.ProductNotFoundException;
 import com.ltr.mapper.Mapper;
-import com.ltr.repository.order.repository.OrdersRepository;
+import com.ltr.module.Products;
+import com.ltr.module.Users;
+import com.ltr.repository.OrdersRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -35,18 +36,36 @@ public class OrderService {
     @Transactional
     public List<OrderDao> getAllOrders(){
         List<Orders> allOrders = ordersRepository.findAll();
-        return Mapper.parseToOrderAndProductAndUser(allOrders);
+        return Mapper.mapToOrderAndProductAndUser(allOrders);
     }
 
     public OrderDao getOrderById(Long id){
         Orders order = ordersRepository.findById(id)
                 .orElseThrow(()-> new OrderNotFoundException("Order Not Found For id "+id));
-        return Mapper.parseToOrderAndProduct(order);
+        return Mapper.mapToOrderAndProduct(order);
     }
 
     @Transactional
     public List<OrderDao> getOrdersByUserId(Long id){
          List<Orders> order = ordersRepository.findAllByUser_Id(id);
-         return Mapper.parseToOrderAndProduct(order);
+         return Mapper.mapToOrderAndProduct(order);
+    }
+
+    public String updateOrderById(Long id, OrderDao updateOrder){
+        Orders order = ordersRepository.findById(id)
+                .orElseThrow(()-> new OrderNotFoundException("Order Not Found For id "+id));
+
+        order.setTotalAmount(updateOrder.getTotalAmount());
+        order.setPlacedDate(order.getPlacedDate());
+        order.setStatus("Placed");
+        order.setBodyMeasurement(updateOrder.getBodyMeasurement());
+        Users user = new Users();
+        user.setId(updateOrder.getUsersDao().getId());
+        Products product = new Products();
+        product.setId(updateOrder.getProductDao().getId());
+        order.setUser(user);
+        order.setProduct(product);
+        ordersRepository.save(order);
+        return "Order Updated Successfully...";
     }
 }

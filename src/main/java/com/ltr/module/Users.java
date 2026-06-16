@@ -1,7 +1,6 @@
-package com.ltr.entity.users;
+package com.ltr.module;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.ltr.entity.orders.Orders;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,6 +1,6 @@
 package com.ltr.controller;
 
-import com.ltr.entity.users.Users;
+import com.ltr.module.Users;
 import com.ltr.service.UsersService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

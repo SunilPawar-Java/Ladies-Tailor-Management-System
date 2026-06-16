@@ -1,7 +1,7 @@
 package com.ltr.controller;
 
-import com.ltr.dao.product.ProductDao;
-import com.ltr.entity.products.Products;
+import com.ltr.dao.ProductDao;
+import com.ltr.module.Products;
 import com.ltr.service.ProductsService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;

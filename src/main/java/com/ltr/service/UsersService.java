@@ -1,11 +1,11 @@
 package com.ltr.service;
 
 import com.ltr.dao.UsersDao;
-import com.ltr.entity.users.Role;
-import com.ltr.entity.users.Users;
-import com.ltr.exception.classes.UserNotFoundException;
+import com.ltr.module.Role;
+import com.ltr.module.Users;
+import com.ltr.exception.UserNotFoundException;
 import com.ltr.mapper.Mapper;
-import com.ltr.repository.user.UsersRepository;
+import com.ltr.repository.UsersRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -34,7 +34,7 @@ public class UsersService {
     public UsersDao getUser(Long id){
         Users user = usersRepository.findById(id).orElseThrow(
                 () -> new UserNotFoundException("User Not Exists For User ID = " + id));
-        return Mapper.parseToUserDao(user);
+        return Mapper.mapToUserDao(user);
     }
 
     public boolean isExistsByPhone(String phone){

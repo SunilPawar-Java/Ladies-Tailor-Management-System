@@ -1,4 +1,4 @@
-package com.ltr.exception.classes;
+package com.ltr.exception;
 
 import lombok.NoArgsConstructor;
 

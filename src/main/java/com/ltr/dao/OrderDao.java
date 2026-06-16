@@ -1,8 +1,6 @@
-package com.ltr.dao.order;
+package com.ltr.dao;
 
-import com.ltr.dao.UsersDao;
-import com.ltr.entity.orders.BodyMeasurement;
-import com.ltr.entity.products.Products;
+import com.ltr.module.BodyMeasurement;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,7 +19,6 @@ public class OrderDao {
     private LocalDateTime placedDate;
     private String status;
     private BodyMeasurement bodyMeasurement;
-    private Products product;
-
+    private ProductDao productDao;
     private UsersDao usersDao;
 }

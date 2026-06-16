@@ -1,4 +1,4 @@
-package com.ltr.exception.classes;
+package com.ltr.exception;
 
 public class ProductNotFoundException extends RuntimeException {
     public ProductNotFoundException(String message) {

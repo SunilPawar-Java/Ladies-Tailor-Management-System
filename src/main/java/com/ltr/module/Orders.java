@@ -1,8 +1,6 @@
-package com.ltr.entity.orders;
+package com.ltr.module;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.ltr.entity.products.Products;
-import com.ltr.entity.users.Users;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

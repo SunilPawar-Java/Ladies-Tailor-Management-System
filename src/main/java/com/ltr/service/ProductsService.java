@@ -1,9 +1,9 @@
 package com.ltr.service;
 
-import com.ltr.dao.product.ProductDao;
-import com.ltr.entity.products.Products;
-import com.ltr.exception.classes.ProductNotFoundException;
-import com.ltr.repository.procuct.repository.ProductsRepository;
+import com.ltr.dao.ProductDao;
+import com.ltr.module.Products;
+import com.ltr.exception.ProductNotFoundException;
+import com.ltr.repository.ProductsRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 

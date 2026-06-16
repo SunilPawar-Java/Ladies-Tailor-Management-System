@@ -1,6 +1,6 @@
-package com.ltr.repository.order.repository;
+package com.ltr.repository;
 
-import com.ltr.entity.orders.Orders;
+import com.ltr.module.Orders;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

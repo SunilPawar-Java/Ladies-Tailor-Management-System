@@ -1,5 +1,6 @@
 package com.ltr.controller;
-import com.ltr.entity.orders.Orders;
+import com.ltr.dao.OrderDao;
+import com.ltr.module.Orders;
 import com.ltr.service.OrderService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,5 +36,10 @@ public class OrderController {
     @GetMapping("/get/userid/{id}")
     public ResponseEntity<?> getOrdersByUserId(@PathVariable Long id){
         return ResponseEntity.status(HttpStatus.FOUND).body(orderService.getOrdersByUserId(id));
+    }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<?> updateOrder(@PathVariable Long id, @RequestBody OrderDao orderDao){
+        return ResponseEntity.ok(orderService.updateOrderById(id, orderDao));
     }
 }

@@ -1,4 +1,4 @@
-package com.ltr.dao.product;
+package com.ltr.dao;
 
 import lombok.*;
 import org.springframework.web.multipart.MultipartFile;

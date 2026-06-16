@@ -1,4 +1,4 @@
-package com.ltr.entity.users;
+package com.ltr.module;
 
 public enum Role {
     ROLE_CUSTOMER,
