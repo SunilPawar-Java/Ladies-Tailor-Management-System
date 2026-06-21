@@ -1,55 +1,64 @@
 package com.ltr.controller;
 
-import com.ltr.dao.UsersDao;
-import com.ltr.module.Users;
-import com.ltr.service.UsersService;
+import com.ltr.model.security.LoginRequest;
+import com.ltr.service.security.UserSecurityDetailsService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
+import java.util.Map;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/auth")
 public class AuthController {
 
-    private final UsersService usersService;
+    private final AuthenticationManager authManager;
+    private final UserSecurityDetailsService userSecurityDetailsService;
 
-    public AuthController(UsersService usersService) {
-        this.usersService = usersService;
+    public AuthController(AuthenticationManager authManager, UserSecurityDetailsService userSecurityDetailsService) {
+        this.authManager = authManager;
+        this.userSecurityDetailsService = userSecurityDetailsService;
     }
 
-    @PostMapping("/register")
-    public ResponseEntity<?> registerUser(@RequestBody Users user) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(usersService.createUser(user));
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest, HttpServletRequest httpRequest){
+        try {
+            Authentication auth = authManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword())
+            );
+            SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
+            securityContext.setAuthentication(auth);
+            SecurityContextHolder.setContext(securityContext);
+
+            HttpSession httpSession = httpRequest.getSession(false);
+            if (httpSession != null)
+                httpSession.invalidate();
+
+            httpSession = httpRequest.getSession(true);
+            httpSession.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, securityContext);
+            return ResponseEntity.status(HttpStatus.OK).body(Map.of(
+                    "message", "Login Successful..."
+            ));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getStackTrace());
+        }
     }
 
-    @PostMapping("/registeradmin")
-    public Users registerAdmin(@RequestBody Users user) {
-        return usersService.createAdmin(user);
+    @PreAuthorize("hasAnyRole('ADMIN','CUSTOMER')")
+    @GetMapping("/logout")
+    public ResponseEntity<?> logout(HttpServletRequest request){
+        SecurityContextHolder.clearContext();
+        request.getSession(false).invalidate();
+        return ResponseEntity.ok(Map.of("message", "Log Out successfully"));
     }
 
-    @GetMapping("get/{id}")
-    public ResponseEntity<?> getUserById(@PathVariable Long id) {
-        return ResponseEntity.status(HttpStatus.FOUND).body(usersService.getUser(id));
-    }
-
-    @PutMapping("/update/{id}")
-    public ResponseEntity<?> updateUser(@PathVariable Long id, @RequestBody UsersDao usersDao){
-        return ResponseEntity.ok(usersService.updateUserProfile(id, usersDao));
-    }
-
-    @PatchMapping("/password/{id}")
-    public ResponseEntity<?> changePassword(@PathVariable Long id, @RequestBody String password){
-        return ResponseEntity.ok(usersService.updatePassword(id, password));
-    }
-
-    @PatchMapping("/username/{id}")
-    public ResponseEntity<?> changeUsername(@PathVariable Long id, @RequestBody String username){
-        return ResponseEntity.ok(usersService.changeUsername(id, username));
-    }
-
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> deleteAccount(@PathVariable Long id){
-        return ResponseEntity.ok(usersService.deleteAccount(id));
-    }
 }

@@ -1,12 +1,14 @@
 package com.ltr.repository;
 
-import com.ltr.module.Users;
+import com.ltr.model.Users;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+
+import java.util.Optional;
 
 @Repository
 public interface UsersRepository extends JpaRepository<Users, Long> {
@@ -16,11 +18,17 @@ public interface UsersRepository extends JpaRepository<Users, Long> {
 
     @Modifying
     @Transactional
-    @Query("UPDATE Users u SET u.password = :password WHERE u.id = :id")
-    void updatePassword(@Param("id") Long id, @Param("password") String password);
+    @Query("UPDATE Users u SET u.password = :password WHERE u.username = :username")
+    void updatePassword(@Param("username") String username, @Param("password") String password);
 
     @Modifying
     @Transactional
-    @Query("UPDATE Users u SET u.username = :username WHERE u.id = :id")
-    void updateUsername(@Param("id") Long id, @Param("username") String username);
+    @Query("UPDATE Users u SET u.username = :newUsername WHERE u.username = :username")
+    void updateUsername(@Param("username") String username, @Param("newUsername") String newUsername);
+
+    Optional<Users> findByUsername(String username);
+
+    boolean existsByUsername(String username);
+
+    void deleteByUsername(String username);
 }

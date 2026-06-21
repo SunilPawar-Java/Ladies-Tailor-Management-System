@@ -3,15 +3,15 @@ package com.ltr.mapper;
 import com.ltr.dao.ProductDao;
 import com.ltr.dao.UsersDao;
 import com.ltr.dao.OrderDao;
-import com.ltr.module.Orders;
-import com.ltr.module.Products;
-import com.ltr.module.Users;
+import com.ltr.model.Orders;
+import com.ltr.model.Products;
+import com.ltr.model.Users;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Mapper {
-    public static OrderDao mapToOrderAndProduct(Orders order){
+    public static OrderDao mapToOrderAndProductDao(Orders order){
         OrderDao opDao = new OrderDao();
         opDao.setId(order.getId());
         opDao.setTotalAmount(order.getTotalAmount());
@@ -37,22 +37,10 @@ public class Mapper {
         return productDao;
     }
 
-    public static List<OrderDao> mapToOrderAndProduct(List<Orders> orders){
+    public static List<OrderDao> mapToOrderAndProductDao(List<Orders> orders){
         List<OrderDao> opdaoList = new ArrayList<>();
-        orders.forEach(nextOrder ->{
-            opdaoList.add(mapToOrderAndProduct(nextOrder));
-        });
+        orders.forEach(nextOrder -> opdaoList.add(mapToOrderAndProductDao(nextOrder)));
         return opdaoList;
-    }
-
-    public static UsersDao mapToUserDao(Users user){
-        UsersDao usersDetails = new UsersDao();
-        usersDetails.setId(user.getId());
-        usersDetails.setFullName(user.getFullName());
-        usersDetails.setPhone(user.getPhone());
-        usersDetails.setEmail(user.getEmail());
-        usersDetails.setRegistrationDate(user.getRegistrationDate());
-        return usersDetails;
     }
 
     public static List<OrderDao> mapToOrderAndProductAndUser(List<Orders> orders){
@@ -63,7 +51,8 @@ public class Mapper {
             usersDao.setFullName(nextOrder.getUser().getFullName());
             usersDao.setEmail(nextOrder.getUser().getEmail());
             usersDao.setPhone(nextOrder.getUser().getPhone());
-            OrderDao orderDao = mapToOrderAndProduct(nextOrder);
+            usersDao.setAddress(nextOrder.getUser().getAddress());
+            OrderDao orderDao = mapToOrderAndProductDao(nextOrder);
             orderDao.setUsersDao(usersDao);
             opdaoList.add(orderDao);
         });
@@ -84,4 +73,20 @@ public class Mapper {
         return product;
     }
 
+    public static UsersDao mapToUserDao(Users user){
+        UsersDao usersDao = new UsersDao();
+        usersDao.setId(user.getId());
+        usersDao.setFullName(user.getFullName());
+        usersDao.setPhone(user.getPhone());
+        usersDao.setEmail(user.getEmail());
+        usersDao.setAddress(user.getAddress());
+        usersDao.setRegistrationDate(user.getRegistrationDate());
+        return usersDao;
+    }
+
+    public static List<UsersDao> mapToUserDao(List<Users> users){
+        List<UsersDao> usersDao = new ArrayList<>();
+        users.forEach(user -> usersDao.add(mapToUserDao(user)));
+        return usersDao;
+    }
 }

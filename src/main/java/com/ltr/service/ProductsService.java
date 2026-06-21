@@ -2,7 +2,7 @@ package com.ltr.service;
 
 import com.ltr.dao.ProductDao;
 import com.ltr.mapper.Mapper;
-import com.ltr.module.Products;
+import com.ltr.model.Products;
 import com.ltr.exception.ProductNotFoundException;
 import com.ltr.repository.ProductsRepository;
 import jakarta.transaction.Transactional;
@@ -51,16 +51,17 @@ public class ProductsService {
         return productsRepository.findAllBySubCategory(category).stream().map(products -> {products.setImage(b); return products; }).toList();
     }
 
-    public List<Products> getProductsByItemName(String itemName){
-        return productsRepository.findAllByItemName(itemName)
-                .stream().map(products -> {products.setImage(b); return products; }).toList();
-
-    }
-
     @Transactional
     public List<Products> getProductsByItemType(String itemType){
         return productsRepository.findAllByItemType(itemType)
                 .stream().map(products -> {products.setImage(b); return products; }).toList();
+    }
+
+    @Transactional
+    public List<Products> getProductsByItemName(String itemName){
+        return productsRepository.findAllByItemName(itemName)
+                .stream().map(products -> {products.setImage(b); return products; }).toList();
+
     }
 
     public String updateProductPartially(Long id, ProductDao productDao) throws IOException {
@@ -117,15 +118,15 @@ public class ProductsService {
     }
 
     @Transactional
-    public String deleteAllByItemName(String itemName){
-        productsRepository.deleteAll(getProductsByItemName(itemName));
-        return "All products successfully deleted for category "+itemName;
+    public String deleteAllByItemType(String itemType){
+        productsRepository.deleteAll(getProductsByItemType(itemType));
+        return "All products successfully deleted for category "+itemType;
     }
 
     @Transactional
-    public String deleteAllByItemType(String itemType){
-        productsRepository.deleteAll(getProductsBySubCategory(itemType));
-        return "All products successfully deleted for category "+itemType;
+    public String deleteAllByItemName(String itemName){
+        productsRepository.deleteAll(getProductsByItemName(itemName));
+        return "All products successfully deleted for category "+itemName;
     }
 
     public boolean isProductExistById(Long id){

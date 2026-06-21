@@ -1,4 +1,4 @@
-package com.ltr.module;
+package com.ltr.model;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;

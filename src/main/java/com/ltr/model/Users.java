@@ -1,5 +1,6 @@
-package com.ltr.module;
+package com.ltr.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -31,6 +32,8 @@ public class Users {
     @Column(nullable = false)
     private String phone;
     private String email;
+    @Column(nullable = false)
+    private String address;
     @Column(nullable = false)
     private LocalDateTime registrationDate;
 

@@ -1,4 +1,4 @@
-package com.ltr.module;
+package com.ltr.model;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

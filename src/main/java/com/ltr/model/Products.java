@@ -1,4 +1,4 @@
-package com.ltr.module;
+package com.ltr.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

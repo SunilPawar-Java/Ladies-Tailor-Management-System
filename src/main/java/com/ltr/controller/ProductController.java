@@ -1,10 +1,11 @@
 package com.ltr.controller;
 import com.ltr.dao.ProductDao;
-import com.ltr.module.Products;
+import com.ltr.model.Products;
 import com.ltr.service.ProductsService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.util.List;
@@ -19,6 +20,7 @@ public class ProductController {
         this.productsService = productsService;
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/add")
     public ResponseEntity<?> addProduct(@ModelAttribute ProductDao productDao) throws IOException {
             return ResponseEntity
@@ -40,7 +42,7 @@ public class ProductController {
 
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/get/{id}")
     public Products getProductById(@PathVariable Long id){
         return productsService.getProductById(id);
     }
@@ -60,38 +62,50 @@ public class ProductController {
         return productsService.getProductsByItemType(category);
     }
 
-    @PatchMapping("/{id}")
+    @GetMapping("/itemname/{category}")
+    public List<Products> getProductsByItemName(@PathVariable String category){
+        return productsService.getProductsByItemName(category);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @PatchMapping("/update/{id}")
     public ResponseEntity<?> updateProductPartially(@PathVariable Long id, @ModelAttribute ProductDao productDao) throws IOException {
         return ResponseEntity.ok().body(Map.of("message", productsService.updateProductPartially(id, productDao)));
     }
 
-    @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    @PutMapping("/update/{id}")
     public String updateProductFully(@PathVariable Long id, @ModelAttribute ProductDao productDao) throws IOException {
         return productsService.updateProductFully(id, productDao);
     }
 
-    @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    @DeleteMapping("/delete/{id}")
     public String deleteProductById(@PathVariable Long id){
         return productsService.deleteProductById(id);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/maincategory/{category}")
     public String deleteProductsByMainCategory(@PathVariable String category){
         return productsService.deleteAllByMainCategory(category);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/subcategory/{category}")
     public String deleteProductsBySubCategory(@PathVariable String category){
         return productsService.deleteAllBySubCategory(category);
     }
 
-    @DeleteMapping("/itemname/{itemName}")
-    public String deleteProductsByItemName(@PathVariable String itemName){
-        return productsService.deleteAllByItemName(itemName);
-    }
-
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/itemtype/{itemType}")
     public String deleteProductsByItemType(@PathVariable String itemType){
         return productsService.deleteAllByItemType(itemType);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @DeleteMapping("/itemname/{itemName}")
+    public String deleteProductsByItemName(@PathVariable String itemName){
+        return productsService.deleteAllByItemName(itemName);
     }
 }

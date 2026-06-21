@@ -1,6 +1,6 @@
 package com.ltr.repository;
 
-import com.ltr.module.BodyMeasurement;
+import com.ltr.model.BodyMeasurement;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

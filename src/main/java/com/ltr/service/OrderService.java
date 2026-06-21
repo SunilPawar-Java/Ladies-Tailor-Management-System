@@ -1,13 +1,14 @@
 package com.ltr.service;
 
 import com.ltr.dao.OrderDao;
-import com.ltr.module.Orders;
+import com.ltr.model.Orders;
 import com.ltr.exception.OrderNotFoundException;
 import com.ltr.exception.ProductNotFoundException;
 import com.ltr.mapper.Mapper;
-import com.ltr.module.Products;
-import com.ltr.module.Users;
+import com.ltr.model.Products;
+import com.ltr.model.Users;
 import com.ltr.repository.OrdersRepository;
+import com.ltr.service.security.AuthService;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
@@ -17,14 +18,19 @@ import java.util.List;
 public class OrderService {
     private final ProductsService productsService;
     private final OrdersRepository ordersRepository;
+    private final AuthService authService;
 
-    public OrderService(ProductsService productsService, OrdersRepository ordersRepository) {
+    public OrderService(ProductsService productsService, OrdersRepository ordersRepository, AuthService authService) {
         this.productsService = productsService;
         this.ordersRepository = ordersRepository;
+        this.authService = authService;
     }
 
     @Transactional
     public String saveOrder(Orders order){
+        Users user = new Users();
+        user.setId(authService.getUserId());
+        order.setUser(user);
         order.setPlacedDate(LocalDateTime.now());
         order.setStatus("Placed");
         if (!productsService.isProductExistById(order.getProduct().getId()))
@@ -42,13 +48,13 @@ public class OrderService {
     public OrderDao getOrderById(Long id){
         Orders order = ordersRepository.findById(id)
                 .orElseThrow(()-> new OrderNotFoundException("Order Not Found For id "+id));
-        return Mapper.mapToOrderAndProduct(order);
+        return Mapper.mapToOrderAndProductDao(order);
     }
 
     @Transactional
     public List<OrderDao> getOrdersByUserId(Long id){
          List<Orders> order = ordersRepository.findAllByUser_Id(id);
-         return Mapper.mapToOrderAndProduct(order);
+         return Mapper.mapToOrderAndProductDao(order);
     }
 
     public String updateOrderById(Long id, OrderDao updateOrder){

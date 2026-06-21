@@ -1,6 +1,6 @@
 package com.ltr.repository;
 
-import com.ltr.module.Products;
+import com.ltr.model.Products;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,6 +1,6 @@
 package com.ltr.dao;
 
-import com.ltr.module.BodyMeasurement;
+import com.ltr.model.BodyMeasurement;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
