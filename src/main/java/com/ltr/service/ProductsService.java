@@ -41,27 +41,27 @@ public class ProductsService {
     }
 
     @Transactional
-    public List<Products> getProductsByMainCategory(String category){
-        return productsRepository.findAllByMainCategory(category)
-                .stream().peek(products -> products.setImage(b)).toList();
+    public List<ProductDao> getProductsByMainCategory(String category){
+        List<Products> products = productsRepository.findAllByMainCategory(category);
+        return Mapper.mapToProductDao(products);
     }
 
     @Transactional
-    public List<Products> getProductsBySubCategory(String category){
-        return productsRepository.findAllBySubCategory(category).stream().map(products -> {products.setImage(b); return products; }).toList();
+    public List<ProductDao> getProductsBySubCategory(String category){
+        List<Products> products = productsRepository.findAllByMainCategory(category);
+        return Mapper.mapToProductDao(products);
     }
 
     @Transactional
-    public List<Products> getProductsByItemType(String itemType){
-        return productsRepository.findAllByItemType(itemType)
-                .stream().map(products -> {products.setImage(b); return products; }).toList();
+    public List<ProductDao> getProductsByItemType(String itemType){
+        List<Products> products = productsRepository.findAllByMainCategory(itemType);
+        return Mapper.mapToProductDao(products);
     }
 
     @Transactional
-    public List<Products> getProductsByItemName(String itemName){
-        return productsRepository.findAllByItemName(itemName)
-                .stream().map(products -> {products.setImage(b); return products; }).toList();
-
+    public List<ProductDao> getProductsByItemName(String itemName){
+        List<Products> products = productsRepository.findAllByMainCategory(itemName);
+        return Mapper.mapToProductDao(products);
     }
 
     public String updateProductPartially(Long id, ProductDao productDao) throws IOException {
@@ -107,25 +107,25 @@ public class ProductsService {
 
     @Transactional
     public String deleteAllByMainCategory(String category){
-        productsRepository.deleteAll(getProductsByMainCategory(category));
+        productsRepository.deleteAll(productsRepository.findAllByMainCategory(category));
         return "All products successfully deleted for category "+category;
     }
 
     @Transactional
     public String deleteAllBySubCategory(String category){
-        productsRepository.deleteAll(getProductsBySubCategory(category));
+        productsRepository.deleteAll(productsRepository.findAllBySubCategory(category));
         return "All products successfully deleted for category "+category;
     }
 
     @Transactional
     public String deleteAllByItemType(String itemType){
-        productsRepository.deleteAll(getProductsByItemType(itemType));
+        productsRepository.deleteAll(productsRepository.findAllByItemType(itemType));
         return "All products successfully deleted for category "+itemType;
     }
 
     @Transactional
     public String deleteAllByItemName(String itemName){
-        productsRepository.deleteAll(getProductsByItemName(itemName));
+        productsRepository.deleteAll(productsRepository.findAllByItemName(itemName));
         return "All products successfully deleted for category "+itemName;
     }
 

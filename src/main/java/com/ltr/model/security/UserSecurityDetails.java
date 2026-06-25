@@ -15,7 +15,6 @@ public class UserSecurityDetails implements UserDetails {
 
     public UserSecurityDetails(Users user) {
         this.user = user;
-        this.user.setOrders(null);
     }
 
     @Override

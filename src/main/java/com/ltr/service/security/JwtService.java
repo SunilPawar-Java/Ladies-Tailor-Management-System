@@ -1,9 +1,16 @@
 package com.ltr.service.security;
 
+import com.ltr.exception.RefreshTokenException;
+import com.ltr.exception.UserNotFoundException;
+import com.ltr.model.Users;
+import com.ltr.model.security.RefreshToken;
 import com.ltr.model.security.UserSecurityDetails;
+import com.ltr.repository.RefreshTokenRepository;
+import com.ltr.repository.UsersRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import jakarta.annotation.PostConstruct;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import java.nio.file.Files;
@@ -17,6 +24,7 @@ import java.sql.Date;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Base64;
+import java.util.UUID;
 
 @Service
 public class JwtService {
@@ -25,9 +33,16 @@ public class JwtService {
     private String publicKeyPath;
     @Value("${jwt.private-key-path}")
     private String privateKeyPath;
-    String key = " ";
+    private String key = " ";
     private PublicKey publicKey = null;
     private PrivateKey privateKey = null;
+    private final UsersRepository usersRepository;
+    private final RefreshTokenRepository refreshTokenRepository;
+
+    public JwtService(UsersRepository usersRepository, RefreshTokenRepository refreshTokenRepository) {
+        this.usersRepository = usersRepository;
+        this.refreshTokenRepository = refreshTokenRepository;
+    }
 
     @PostConstruct
     public void init(){
@@ -40,7 +55,7 @@ public class JwtService {
         return Jwts.builder()
                 .subject(userSecurityDetails.getUsername())
                 .issuedAt(Date.from(Instant.now()))
-                .expiration(Date.from(Instant.now().plus(20, ChronoUnit.MINUTES)))
+                .expiration(Date.from(Instant.now().plus(10, ChronoUnit.MINUTES)))
                 .signWith(privateKey)
                 .compact();
     }
@@ -103,5 +118,40 @@ public class JwtService {
             System.out.println(e.getMessage());
         }
         return privateKey;
+    }
+
+    @Transactional
+    public String generateRefreshToken(String username){
+        Users user = usersRepository.findByUsername(username).orElseThrow(() ->
+                new UserNotFoundException("User Not Found For Username "+ username));
+        RefreshToken old = refreshTokenRepository.findByUser_Id(user.getId());
+        if (old != null){
+            refreshTokenRepository.delete(old);
+            refreshTokenRepository.flush();
+            System.out.println("token deleted");
+        }
+        RefreshToken newRefreshToken = RefreshToken.builder()
+                    .refreshToken(UUID.randomUUID().toString())
+                    .expiration(Instant.now().plus(7, ChronoUnit.DAYS))
+                    .user(user)
+                    .build();
+            refreshTokenRepository.save(newRefreshToken);
+        return newRefreshToken.getRefreshToken();
+    }
+
+    @Transactional
+    public RefreshToken verifyRefreshToken(String refreshToken){
+        RefreshToken oldRefreshToken = refreshTokenRepository.findByRefreshToken(refreshToken).orElseThrow(() ->
+                new RefreshTokenException("Invalid Refresh Token!"));
+        if (Instant.now().isAfter(oldRefreshToken.getExpiration())){
+            refreshTokenRepository.delete(oldRefreshToken);
+            throw new RefreshTokenException("Refresh Token Has Expired! Login Again");
+        }
+        return oldRefreshToken;
+    }
+
+    public String deleteRefreshToken(String refreshToken){
+        refreshTokenRepository.deleteByRefreshToken(refreshToken);
+        return "Token deleted";
     }
 }

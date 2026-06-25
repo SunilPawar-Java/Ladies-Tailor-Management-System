@@ -1,6 +1,7 @@
 package com.ltr.service;
 
 import com.ltr.dao.OrderDao;
+import com.ltr.exception.UserNotFoundException;
 import com.ltr.model.Orders;
 import com.ltr.exception.OrderNotFoundException;
 import com.ltr.exception.ProductNotFoundException;
@@ -8,6 +9,7 @@ import com.ltr.mapper.Mapper;
 import com.ltr.model.Products;
 import com.ltr.model.Users;
 import com.ltr.repository.OrdersRepository;
+import com.ltr.repository.UsersRepository;
 import com.ltr.service.security.AuthService;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
@@ -18,18 +20,19 @@ import java.util.List;
 public class OrderService {
     private final ProductsService productsService;
     private final OrdersRepository ordersRepository;
+    private final UsersRepository usersRepository;
     private final AuthService authService;
 
-    public OrderService(ProductsService productsService, OrdersRepository ordersRepository, AuthService authService) {
+    public OrderService(ProductsService productsService, OrdersRepository ordersRepository, UsersRepository usersRepository, AuthService authService) {
         this.productsService = productsService;
         this.ordersRepository = ordersRepository;
+        this.usersRepository = usersRepository;
         this.authService = authService;
     }
 
     @Transactional
     public String saveOrder(Orders order){
-        Users user = new Users();
-        user.setId(authService.getUserId());
+        Users user = usersRepository.findById(authService.getUserId()).orElseThrow(()-> new UserNotFoundException("User not found!"));
         order.setUser(user);
         order.setPlacedDate(LocalDateTime.now());
         order.setStatus("Placed");
@@ -65,8 +68,7 @@ public class OrderService {
         order.setPlacedDate(order.getPlacedDate());
         order.setStatus("Placed");
         order.setBodyMeasurement(updateOrder.getBodyMeasurement());
-        Users user = new Users();
-        user.setId(updateOrder.getUsersDao().getId());
+        Users user = usersRepository.findById(authService.getUserId()).orElseThrow(()-> new UserNotFoundException("User not found!"));
         Products product = new Products();
         product.setId(updateOrder.getProductDao().getId());
         order.setUser(user);

@@ -43,4 +43,11 @@ public class GlobalExceptionHandler {
                 "message", jwtException.getMessage()
         ));
     }
+
+    @ExceptionHandler(RefreshTokenException.class)
+    public ResponseEntity<?> refreshTokenExceptionHandler(RefreshTokenException refreshTokenException){
+        return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(Map.of(
+                "message", refreshTokenException.getMessage()
+        ));
+    }
 }

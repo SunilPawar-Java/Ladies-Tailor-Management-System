@@ -77,7 +77,7 @@ public class SecurityConfiguration {
 
                         .requestMatchers(
                                 HttpMethod.POST,
-                                "/user/register", "/auth/login"
+                                "/user/register", "/auth/login", "/auth/refreshtoken"
                         ).permitAll()
                         .requestMatchers(
                                 HttpMethod.GET,

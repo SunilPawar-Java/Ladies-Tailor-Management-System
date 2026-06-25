@@ -89,4 +89,24 @@ public class Mapper {
         users.forEach(user -> usersDao.add(mapToUserDao(user)));
         return usersDao;
     }
+
+    public static ProductDao mapToProductDao(Products product){
+        ProductDao productDao = new ProductDao();
+        productDao.setItemName(product.getItemName());
+        productDao.setItemType(product.getItemType());
+        productDao.setMainCategory(product.getMainCategory());
+        productDao.setSubCategory(product.getSubCategory());
+        productDao.setPrice(product.getPrice());
+        productDao.setDescription(product.getDescription());
+        productDao.setImage(null);
+        return productDao;
+    }
+
+    public static List<ProductDao> mapToProductDao(List<Products> products){
+        List<ProductDao> productDaoList = new ArrayList<>();
+        products.forEach(products1 -> {
+            productDaoList.add(mapToProductDao(products1));
+        });
+        return productDaoList;
+    }
 }

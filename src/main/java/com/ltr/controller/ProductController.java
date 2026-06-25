@@ -48,22 +48,22 @@ public class ProductController {
     }
 
     @GetMapping("/maincategory/{category}")
-    public List<Products> getProductsByMainCategory(@PathVariable String category){
+    public List<ProductDao> getProductsByMainCategory(@PathVariable String category){
         return productsService.getProductsByMainCategory(category);
     }
 
     @GetMapping("/subcategory/{category}")
-    public List<Products> getProductsBySubCategory(@PathVariable String category){
+    public List<ProductDao> getProductsBySubCategory(@PathVariable String category){
         return productsService.getProductsBySubCategory(category);
     }
 
     @GetMapping("/itemtype/{category}")
-    public List<Products> getProductsByItemType(@PathVariable String category){
+    public List<ProductDao> getProductsByItemType(@PathVariable String category){
         return productsService.getProductsByItemType(category);
     }
 
     @GetMapping("/itemname/{category}")
-    public List<Products> getProductsByItemName(@PathVariable String category){
+    public List<ProductDao> getProductsByItemName(@PathVariable String category){
         return productsService.getProductsByItemName(category);
     }
 

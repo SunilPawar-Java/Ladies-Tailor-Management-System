@@ -1,6 +1,7 @@
 package com.ltr.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.ltr.model.security.RefreshToken;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -37,7 +38,7 @@ public class Users {
     @Column(nullable = false)
     private LocalDateTime registrationDate;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @JsonManagedReference("users-orders")
     private List<Orders> orders;
 }
