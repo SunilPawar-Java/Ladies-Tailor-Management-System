@@ -24,18 +24,25 @@ The application provides a RESTful backend using Spring Boot and a responsive fr
 **Tech Stack**
 
 **1) Frontend**
+
 - React.js
 - Tailwind CSS
 - Axios
+- 
 **2)  Backend**
+  
 - Java 21
 - Spring Boot
 - Spring Security
 - Spring Data JPA
 - JWT
+- 
 **3) Database**
+  
 - PostgreSQL
+- 
 **4) Build Tools**
+  
 - Maven
 
 **Future Enhancements**
