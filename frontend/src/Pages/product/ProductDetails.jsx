@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from 'react'
-import {useNavigate, useParams} from "react-router-dom";
-import {getProductById} from "../../../api/ProductApi.js";
+import {Outlet, useNavigate, useParams} from "react-router-dom";
+import {getProductById} from "../../api/ProductApi.js";
 import axios from "axios";
 
-const Product = () => {
+const ProductDetails = () => {
     const navigate = useNavigate()
     const {id} = useParams();
     const [productDetails, setProductDetails] = useState([]);
@@ -82,14 +82,14 @@ const Product = () => {
                     <button className='text-md text-white font-bold bg-blue-950 rounded py-1 px-5 hover:scale-105 active:scale-100 duration-500'>Wishlist</button>
                     <button
                         //onClick={payment}
-                        onClick={() => navigate("/products/bodymesurement")}
+                        onClick={() => navigate(`/products/product/${id}/order/${id}`)}
                         className='text-md text-white font-bold bg-blue-950 rounded py-1 px-5 hover:scale-105 active:scale-100 duration-500'>
                         Order Now
                     </button>
                 </div>
             </div>
-
+            <Outlet/>
         </div>
     )
 }
-export default Product
+export default ProductDetails

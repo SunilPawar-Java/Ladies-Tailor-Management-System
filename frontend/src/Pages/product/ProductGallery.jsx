@@ -2,7 +2,7 @@ import {useEffect, useState} from "react";
 import {getAllProducts} from "/src/api/ProductApi.js";
 import {Outlet, useNavigate} from "react-router-dom";
 
-const Gallery = () => {
+const ProductGallery = () => {
     const [products, setProducts] = useState([]);
     const [imageHoverId, setImageHoverId] = useState(null);
     const navigate =   useNavigate();
@@ -46,4 +46,4 @@ const Gallery = () => {
         </div>
     </>)
 }
-export default Gallery
+export default ProductGallery

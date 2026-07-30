@@ -1,6 +1,6 @@
-import WhatsappButton from "../../buttons/WhatsappButton.jsx";
-import InstagramButton from "../../buttons/InstagramButton.jsx";
-import LocationButton from "../../buttons/LocationButton.jsx";
+import WhatsappButton from "../../components/buttons/WhatsappButton.jsx";
+import InstagramButton from "../../components/buttons/InstagramButton.jsx";
+import LocationButton from "../../components/buttons/LocationButton.jsx";
 import {useState} from "react";
 
 const FooterSection = () => {

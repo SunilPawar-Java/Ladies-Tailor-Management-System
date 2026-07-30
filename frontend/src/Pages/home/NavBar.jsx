@@ -1,6 +1,6 @@
 import React from 'react'
-import MobileNavBar from "../../navbar/MobileNavBar.jsx";
-import LaptopNavBar from "../../navbar/LaptopNavBar.jsx";
+import MobileNavBar from "../../components/navbar/MobileNavBar.jsx";
+import LaptopNavBar from "../../components/navbar/LaptopNavBar.jsx";
 
 const NavBar = () => {
     return (
