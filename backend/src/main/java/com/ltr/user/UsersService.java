@@ -1,13 +1,8 @@
-package com.ltr.service;
-import com.ltr.dao.UsersDao;
+package com.ltr.user;
 import com.ltr.exception.UserAlreadyExistsException;
-import com.ltr.model.Role;
-import com.ltr.model.Users;
 import com.ltr.exception.UserNotFoundException;
 import com.ltr.mapper.Mapper;
-import com.ltr.repository.UsersRepository;
 import jakarta.transaction.Transactional;
-import org.jspecify.annotations.NonNull;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;

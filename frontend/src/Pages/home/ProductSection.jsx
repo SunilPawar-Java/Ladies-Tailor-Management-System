@@ -1,4 +1,9 @@
 import React, {useState} from 'react'
+import blouseImage from '../../assets/images/Blouse.png'
+import topImage from '../../assets/images/Top.png'
+import kurtiImage from '../../assets/images/Kurti.png'
+import plazzoImage from '../../assets/images/Plazzo.png'
+import kurti1Image from '../../assets/images/Kurti 1.png'
 import {Link} from 'react-router-dom'
 const ProductSection = () => {
     const [imageHoverId, setImageHoverId] = useState(null);
@@ -6,23 +11,23 @@ const ProductSection = () => {
         {
             id:1,
             name:"Blouses",
-            src:"/src/assets/images/Blouse.png"
+            src: blouseImage
         }, {
             id:2,
             name:"Kurtis",
-            src:"/src/assets/images/Kurti.png"
+            src:kurtiImage
         }, {
             id:3,
             name:"Pants",
-            src:"/src/assets/images/Plazzo.png"
+            src: plazzoImage
         }, {
         id:4,
             name: "Top",
-            src: "/src/assets/images/Top.png",
+            src: topImage
         },{
             id: 5,
             name: "Full Outfit",
-            src: "/src/assets/images/kurti 1.png"
+            src: kurti1Image
         }
     ]);
     return (<>

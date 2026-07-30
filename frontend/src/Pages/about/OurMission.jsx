@@ -33,20 +33,23 @@ const OurMission = () => {
 
             {
                 ourMission.map((mission, idx) => {
-                    return <div key={mission.id} className='flex flex-col items-center justify-center py-3 sm:flex-row sm:gap-20 md:px-15'>
-                        <div className={'sm:w-1/2 sm:flex items-center justify-center' + `${idx % 2 !== 0 ? 'order-2 sm:order-1' : ''}`}>
-                            <div className='h-50 w-60 lg:w-100 md:w-80 sm:h-1/2 overflow-hidden object-cover rounded shadow-black shadow-md'>
-                                <img className='h-50 w-60 sm:h-70 sm:w-70 md:w-80 lg:h-100 lg:w-100 object-cover
+                    return <div key={mission.id}
+                                className='flex flex-col items-center justify-center py-3 sm:flex-row sm:gap-20 md:px-15'>
+                        <div
+                            className={'sm:w-1/2 sm:flex items-center justify-center' + `${idx % 2 !== 0 ? 'order-2 sm:order-1' : ''}`}>
+                            <div className='lg:w-100 md:w-80 sm:h-1/2 overflow-hidden object-cover rounded shadow-md'>
+                                <img className=' sm:h-70 sm:w-70 md:w-80 lg:h-100 lg:w-100 object-cover
                                     grayscale-15 brightness-110 transition-transform duration-500 ease-in-out hover:scale-110 hover:rotate-0 hover:grayscale-0'
-                                     src={mission.image} alt="our mission"
+                                     src={mission.image} alt="Image"
                                 />
                             </div>
                         </div>
 
-                        <div className={'p-2 h-1/2 text-sm sm:w-200 md:w-1/2 sm:text-lg flex flex-col items-center justify-center' +
+                        <div
+                            className={'p-2 h-1/2 text-sm sm:w-200 md:w-1/2 sm:text-lg flex flex-col items-center justify-center' +
                                 `${idx % 2 !== 1 ? 'order-1 sm:order-2' : ''}`}>
 
-                            <p className='font-bold'><span>{mission.head}</span> </p>
+                            <p className='font-bold'><span>{mission.head}</span></p>
                             <p className='lg:text-lg lg:leading-7 text-zinc-600'>
                                 {mission.text}
                             </p>

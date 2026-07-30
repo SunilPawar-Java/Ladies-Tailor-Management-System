@@ -2,7 +2,7 @@ import React from 'react'
 
 const HeadSection = () => {
     return (<>
-        <div className='mt-15 sm:h-142 md:h-screen sm:mt-17 w-screen p-7 sm:p-15 md:pl-15 md:pr-15 lg:pl-15 lg:pr-15
+        <div className='mt-15 sm:h-142  sm:mt-17 w-screen p-7 sm:p-15 md:pl-15 md:pr-15 lg:pl-15 lg:pr-15
          flex flex-col gap-15'>
 
                 <div>

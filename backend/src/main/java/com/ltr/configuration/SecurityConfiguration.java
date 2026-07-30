@@ -1,7 +1,7 @@
 package com.ltr.configuration;
 
-import com.ltr.filter.JwtFilter;
-import com.ltr.service.security.UserSecurityDetailsService;
+import com.ltr.security.JwtFilter;
+import com.ltr.security.UserSecurityDetailsService;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -77,8 +77,7 @@ public class SecurityConfiguration {
 
                         .requestMatchers(
                                 HttpMethod.POST,
-                                "/user/register", "/auth/login", "/auth/refreshtoken",
-                                "/payment/create-order/{amount}"
+                                "/user/register", "/auth/login", "/auth/logout", "/auth/refreshtoken"
                         ).permitAll()
                         .requestMatchers(
                                 HttpMethod.GET,
@@ -87,6 +86,7 @@ public class SecurityConfiguration {
                                 "/product/itemtype/{itemType}", "/product/subcategory/{category}",
                                 "/product/maincategory/{category}", "/product/image/{id}"
                         ).permitAll()
+
                         .anyRequest().authenticated()
                 )
                 .exceptionHandling(exception -> exception

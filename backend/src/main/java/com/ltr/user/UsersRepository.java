@@ -1,6 +1,5 @@
-package com.ltr.repository;
+package com.ltr.user;
 
-import com.ltr.model.Users;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;

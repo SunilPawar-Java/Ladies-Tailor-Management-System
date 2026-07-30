@@ -1,8 +1,8 @@
 package com.ltr.controller;
 import com.ltr.dao.OrderDao;
-import com.ltr.model.Orders;
+import com.ltr.model.OrderRequest;
 import com.ltr.service.OrderService;
-import com.ltr.service.security.AuthService;
+import com.ltr.security.AuthService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -21,11 +21,12 @@ public class OrderController {
     }
 
     @PreAuthorize("hasRole('CUSTOMER')")
-    @PostMapping("/place")
-    public ResponseEntity<?> placeOrder(@RequestBody Orders order){
+    @PostMapping
+    public ResponseEntity<?> placeOrder(@RequestBody OrderRequest order){
+        System.out.println("------>  "+ order.getMessage());
         return ResponseEntity.ok(Map.of(
                 "orderId" ,orderService.saveOrder(order),
-                "message", "Order Saved But PENDING..."
+                "message", "Order Saved but PAYMENT_PENDING!"
         ));
     }
 
@@ -44,6 +45,7 @@ public class OrderController {
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/all")
     public ResponseEntity<?> getAllOrders(){
+        System.out.println("All Orders");
         return ResponseEntity.ok(orderService.getAllOrders());
     }
 

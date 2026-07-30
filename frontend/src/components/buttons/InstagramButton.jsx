@@ -1,4 +1,5 @@
 import React from 'react'
+import instagramSvg from '../../assets/images/instagram-icon.svg'
 
 const InstagramButton = () => {
     return (
@@ -6,7 +7,7 @@ const InstagramButton = () => {
          hover:scale-105 active:scale-99
         duration-500
         '>
-            <img className='h-5' src="/src/assets/images/instagram-icon.svg" alt="whatsapp icon"/> Instagram
+            <img className='h-5' src={instagramSvg} alt="whatsapp icon"/> Instagram
         </button>
     )
 }

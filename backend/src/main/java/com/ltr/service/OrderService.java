@@ -2,16 +2,15 @@ package com.ltr.service;
 
 import com.ltr.dao.OrderDao;
 import com.ltr.exception.UserNotFoundException;
-import com.ltr.model.Orders;
+import com.ltr.model.*;
 import com.ltr.exception.OrderNotFoundException;
-import com.ltr.exception.ProductNotFoundException;
 import com.ltr.mapper.Mapper;
-import com.ltr.model.PaymentStatus;
-import com.ltr.model.Products;
-import com.ltr.model.Users;
+import com.ltr.product.Products;
+import com.ltr.product.ProductsService;
 import com.ltr.repository.OrdersRepository;
-import com.ltr.repository.UsersRepository;
-import com.ltr.service.security.AuthService;
+import com.ltr.user.Users;
+import com.ltr.user.UsersRepository;
+import com.ltr.security.AuthService;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
@@ -23,36 +22,39 @@ public class OrderService {
     private final OrdersRepository ordersRepository;
     private final UsersRepository usersRepository;
     private final AuthService authService;
+    private final DesignService designService;
 
-    public OrderService(ProductsService productsService, OrdersRepository ordersRepository, UsersRepository usersRepository, AuthService authService) {
+    public OrderService(ProductsService productsService, OrdersRepository ordersRepository, UsersRepository usersRepository, AuthService authService, DesignService designService) {
         this.productsService = productsService;
         this.ordersRepository = ordersRepository;
         this.usersRepository = usersRepository;
         this.authService = authService;
+        this.designService = designService;
     }
 
     @Transactional
-    public Long saveOrder(Orders order){
+    public Long saveOrder(OrderRequest orderRequest){
+        Orders order = Mapper.mapToOrder(orderRequest);
         Users user = usersRepository.findById(authService.getUserId()).orElseThrow(()-> new UserNotFoundException("User not found!"));
         order.setUser(user);
+        order.setTotalAmount(orderRequest.getTotalAmount());
         order.setPlacedDate(LocalDateTime.now());
         order.setStatus(PaymentStatus.PAYMENT_PENDING.toString());
-        if (!productsService.isProductExistById(order.getProduct().getId()))
-            throw new ProductNotFoundException("Fail to place order because product is not available for id " + order.getProduct().getId());
+        order.setProduct(productsService.getProductById(orderRequest.getProductId()));
         Orders savedOrder = ordersRepository.save(order);
         return savedOrder.getId();
-    }
-
-    @Transactional
-    public List<OrderDao> getAllOrders(){
-        List<Orders> allOrders = ordersRepository.findAll();
-        return Mapper.mapToOrderAndProductAndUser(allOrders);
     }
 
     public OrderDao getOrderById(Long id){
         Orders order = ordersRepository.findById(id)
                 .orElseThrow(()-> new OrderNotFoundException("Order Not Found For id "+id));
         return Mapper.mapToOrderAndProductDao(order);
+    }
+
+    @Transactional
+    public List<OrderDao> getAllOrders(){
+        List<Orders> allOrders = ordersRepository.findAll();
+        return Mapper.mapToOrderAndProductAndUser(allOrders);
     }
 
     @Transactional

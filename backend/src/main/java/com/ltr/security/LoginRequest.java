@@ -1,4 +1,4 @@
-package com.ltr.dao;
+package com.ltr.security;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,10 +9,7 @@ import lombok.Setter;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class PaymentDao {
-
-    private Long id;
-    private String paymentStatus;
-    private Double amount;
-    private Double amountPaid;
+public class LoginRequest {
+    private String username;
+    private String password;
 }

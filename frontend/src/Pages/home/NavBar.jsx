@@ -5,7 +5,7 @@ import LaptopNavBar from "../../components/navbar/LaptopNavBar.jsx";
 const NavBar = () => {
     return (
         <>
-            <div className='block sm:hidden lg:hidden'>
+            <div className='block sm:hidden lg:hidden '>
                 <MobileNavBar/>
             </div>
             <div className='hidden sm:block'>

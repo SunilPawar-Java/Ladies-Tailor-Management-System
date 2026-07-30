@@ -1,4 +1,5 @@
 import ServiceSection from "../home/ServiceSection.jsx";
+import ownerImage from "../../assets/images/owner.png"
 import OurMission from "./OurMission.jsx";
 import WhyChooseUs from "./WhyChooseUs.jsx";
 import OurStory from "./OurStory.jsx";
@@ -6,7 +7,7 @@ import OurStory from "./OurStory.jsx";
 const About = () => {
 
     return (<>
-        <div className='pt-18 flex flex-col sm:h-auto sm:mt-17 p-5 sm:gap-1 sm:p-10 md:pl-15 md:pr-15 lg:pl-15 lg:pr-15 gap-10 lg:gap-10'>
+        <div className='pt-18 flex flex-col sm:h-auto sm:mt-17 p-5 sm:gap-1 sm:p-10 md:pl-15 md:pr-15 lg:pl-15 lg:pr-15 gap-10 lg:gap-15'>
             <p className='text-blue-950 font-mono font-extrabold text-3xl md:text-5xl'>
                 Crafting
                 <span className='text-blue-600'> Perfect Fits  </span>
@@ -27,7 +28,7 @@ const About = () => {
                     <div className='w-1/2 h-90 hidden rounded-lg sm:flex object-cover overflow-hidden'>
                         <img className='w-full h-70 sm:h-70 lg:h-full object-cover grayscale-15 brightness-110
                         transition-transform duration-500 ease-in-out hover:scale-110 hover:rotate-3 hover:grayscale-0'
-                            src="/src/assets/images/owner.png" alt="shop owner image"/>
+                            src={ownerImage} alt="shop owner image"/>
                     </div>
                 </div>
             </div>

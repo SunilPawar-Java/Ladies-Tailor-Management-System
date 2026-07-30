@@ -1,15 +1,15 @@
 package com.ltr.dao;
 
 import com.ltr.model.BodyMeasurement;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.ltr.product.ProductDao;
+import com.ltr.user.UsersDao;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 @Setter
 @Getter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrderDao {
@@ -19,6 +19,7 @@ public class OrderDao {
     private LocalDateTime placedDate;
     private String status;
     private BodyMeasurement bodyMeasurement;
+    private DesignDao designDao;
     private ProductDao productDao;
     private UsersDao usersDao;
 }

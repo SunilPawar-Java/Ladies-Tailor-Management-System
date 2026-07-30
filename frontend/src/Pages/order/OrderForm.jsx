@@ -117,12 +117,12 @@ const OrderForm = () => {
                 >
                     Previous
                 </button>
-                <button type="button"  className='bg-blue-950 rounded py-2 px-10 text-white font-bold transition-all active:scale-100 hover:scale-105 duration-500'
+                <button type="button"  className='bg-green-700 rounded py-2 px-10 text-white font-bold transition-all active:scale-100 hover:scale-105 duration-500'
                         onClick={() => saveToDraft(getValues())}
                 >
                     Save
                 </button>
-                <button type="submit" className='bg-green-700 rounded py-2 px-10 text-white font-bold transition-all active:scale-100 hover:scale-105 duration-500'>
+                <button type="submit" className='bg-blue-700 rounded py-2 px-10 text-white font-bold transition-all active:scale-100 hover:scale-105 duration-500'>
                     Save And Next
                 </button>
             </div>

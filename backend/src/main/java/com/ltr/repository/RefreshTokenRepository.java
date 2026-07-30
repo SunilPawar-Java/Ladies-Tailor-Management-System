@@ -1,11 +1,10 @@
 package com.ltr.repository;
 
-import com.ltr.model.security.RefreshToken;
+import com.ltr.security.RefreshToken;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
-import java.util.UUID;
 
 @Repository
 public interface RefreshTokenRepository extends JpaRepository<RefreshToken, String> {

@@ -1,12 +1,10 @@
-package com.ltr.controller;
-import com.ltr.dao.ProductDao;
-import com.ltr.model.Products;
-import com.ltr.service.ProductsService;
+package com.ltr.product;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -21,9 +19,9 @@ public class ProductController {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    @PostMapping("/add")
+    @PostMapping
     public ResponseEntity<?> addProduct(@ModelAttribute ProductDao productDao) throws IOException {
-            return ResponseEntity
+        return ResponseEntity
                     .status(HttpStatus.CREATED)
                     .body(Map.of("message", productsService.addProduct(productDao)));
     }
@@ -68,15 +66,15 @@ public class ProductController {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    @PatchMapping("/update/{id}")
-    public ResponseEntity<?> updateProductPartially(@PathVariable Long id, @ModelAttribute ProductDao productDao) throws IOException {
-        return ResponseEntity.ok().body(Map.of("message", productsService.updateProductPartially(id, productDao)));
+    @PatchMapping(path = "/update")   //, consumes = MediaType.MULTIPART_FORM_DATA_VALUE
+    public ResponseEntity<?> updateProductPartially(@ModelAttribute ProductDao productDao) throws IOException {
+        return ResponseEntity.ok().body(Map.of("message", productsService.updateProductPartially(productDao)));
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    @PutMapping("/update/{id}")
-    public String updateProductFully(@PathVariable Long id, @ModelAttribute ProductDao productDao) throws IOException {
-        return productsService.updateProductFully(id, productDao);
+    @PutMapping("/update")
+    public String updateProductFully(@ModelAttribute ProductDao productDao) throws IOException {
+        return productsService.updateProductFully(productDao);
     }
 
     @PreAuthorize("hasRole('ADMIN')")

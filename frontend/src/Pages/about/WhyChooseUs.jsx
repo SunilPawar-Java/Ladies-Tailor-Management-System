@@ -32,7 +32,7 @@ const WhyChooseUs = () => {
                     chooseUs.map((choose, idx) =>{
                         return <div key={choose.id} className='flex flex-col gap-2 py-3'>
                             <p className='font-bold'>{choose.heading}</p>
-                            <p className='text-base font-light'>{choose.body}</p>
+                            <p className='g:text-lg lg:leading-7 text-zinc-600'>{choose.body}</p>
                         </div>
                     })
                 }

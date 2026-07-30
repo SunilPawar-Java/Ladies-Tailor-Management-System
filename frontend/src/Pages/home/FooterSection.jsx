@@ -44,7 +44,7 @@ const FooterSection = () => {
 
 
     return (<>
-        <div className='text-zinc-300 w-screen border-t flex flex-col gap-5 bg-gray-900 py-5  md:px-15 lg:px-15'>
+        <div className='w-screen flex flex-col gap-5 bg-gray-300 text-blue-950 py-5  md:px-15 lg:px-15'>
             <div className='h-full w-full flex justify-between  '>
                 <div className='w-1/3 flex flex-col items-center justify-center gap-5'>
                     <h1 className='font-bold hover:cursor-pointer'>LTR</h1>

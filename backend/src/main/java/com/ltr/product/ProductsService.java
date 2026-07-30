@@ -1,8 +1,6 @@
-package com.ltr.service;
+package com.ltr.product;
 
-import com.ltr.dao.ProductDao;
 import com.ltr.mapper.Mapper;
-import com.ltr.model.Products;
 import com.ltr.exception.ProductNotFoundException;
 import com.ltr.repository.ProductsRepository;
 import jakarta.transaction.Transactional;
@@ -66,36 +64,62 @@ public class ProductsService {
         return Mapper.mapToProductDao(products);
     }
 
-    public String updateProductPartially(Long id, ProductDao productDao) throws IOException {
-        Products product = productsRepository.findById(id).orElseThrow(() -> new ProductNotFoundException("Product Not Found"));
-        if(productDao.getMainCategory() != null)
-            product.setMainCategory(productDao.getMainCategory());
-        if (productDao.getLocationCategory() != null)
-            product.setLocationCategory(productDao.getLocationCategory());
-        if (productDao.getItemName() != null)
+    public String updateProductPartially(ProductDao productDao) throws IOException {
+        Products product = productsRepository.findById(productDao.getId()).orElseThrow(() -> new ProductNotFoundException("Product Not Found"));
+        if (productDao.getItemName() != null && !productDao.getItemName().isBlank())
             product.setItemName(productDao.getItemName());
-        if (productDao.getItemType() != null)
+        if (productDao.getItemType() != null && !productDao.getItemType().isBlank())
             product.setItemType(productDao.getItemType());
+        if(productDao.getMainCategory() != null && !productDao.getMainCategory().isBlank())
+            product.setMainCategory(productDao.getMainCategory());
+        if (productDao.getLocationCategory() != null && !productDao.getLocationCategory().isBlank())
+            product.setLocationCategory(productDao.getLocationCategory());
         if(productDao.getPrice() != null)
             product.setPrice(productDao.getPrice());
-        if (productDao.getDescription() != null)
+        if(productDao.getDiscountPercentage() != null)
+            product.setDiscountPercentage(productDao.getDiscountPercentage());
+        if (productDao.getDescription() != null && !productDao.getDescription().isBlank())
             product.setDescription(productDao.getDescription());
-        if(productDao.getImage() != null)
+        if(productDao.getFabric() != null && !productDao.getFabric().isBlank())
+            product.setFabric(productDao.getFabric());
+        if (productDao.getColor() != null && !productDao.getColor().isBlank())
+            product.setColor(productDao.getColor());
+        if (productDao.getFitType() != null && !productDao.getFitType().isBlank())
+            product.setFitType(productDao.getFitType());
+        if (productDao.getClosureType() != null && !productDao.getClosureType().isBlank())
+            product.setClosureType(productDao.getClosureType());
+        if(productDao.getHemline() != null && !productDao.getHemline().isBlank())
+            product.setHemline(productDao.getHemline());
+        if (productDao.getLengthType() != null && !productDao.getLengthType().isBlank())
+            product.setLengthType(productDao.getLengthType());
+        if(productDao.getSleeveLength() != null && !productDao.getSleeveLength().isBlank())
+            product.setSleeveLength(productDao.getSleeveLength());
+        if(productDao.getSleeveType() != null && !productDao.getSleeveType().isBlank())
+            product.setSleeveType(productDao.getSleeveType());
+        if(productDao.getNeckline() != null && !productDao.getNeckline().isBlank())
+            product.setNeckline(productDao.getNeckline());
+        if(productDao.getOccasion() != null && !productDao.getOccasion().isBlank())
+            product.setOccasion(productDao.getOccasion());
+        if(productDao.getSeason() != null && !productDao.getSeason().isBlank())
+            product.setSeason(productDao.getSeason());
+        if(productDao.getStock() != null)
+            product.setStock(productDao.getStock());
+        if(productDao.getImage() != null) {
+            product.setImageName(productDao.getImage().getOriginalFilename());
+            product.setImageType(productDao.getImage().getContentType());
             product.setImage(productDao.getImage().getBytes());
+        }
         productsRepository.save(product);
         return "Product Updated Successfully";
     }
 
-    public String updateProductFully(Long id, ProductDao productDao) throws IOException {
-        Products product = productsRepository.findById(id).orElseThrow(() -> new ProductNotFoundException("Product Not Found"));
+    public String updateProductFully(ProductDao productDao) throws IOException {
+        Products product = productsRepository.findById(productDao.getId()).orElseThrow(() -> new ProductNotFoundException("Product Not Found"));
         product.setMainCategory(productDao.getMainCategory());
         product.setLocationCategory(productDao.getLocationCategory());
         product.setItemType(productDao.getItemType());
         product.setItemName(productDao.getItemName());
         product.setPrice(productDao.getPrice());
-        product.setDescription(productDao.getDescription());
-        product.setImageName(productDao.getImage().getOriginalFilename());
-        product.setImageType(productDao.getImage().getContentType());
         product.setColor(productDao.getColor());
         product.setOccasion(productDao.getOccasion());
         product.setSeason(productDao.getSeason());
@@ -109,7 +133,10 @@ public class ProductsService {
         product.setFitType(productDao.getFitType());
         product.setHemline(productDao.getHemline());
         product.setClosureType(productDao.getClosureType());
+        product.setImageName(productDao.getImage().getOriginalFilename());
+        product.setImageType(productDao.getImage().getContentType());
         product.setImage(productDao.getImage().getBytes());
+        product.setDescription(productDao.getDescription());
         productsRepository.save(product);
         return "Product Updated Successfully";
     }

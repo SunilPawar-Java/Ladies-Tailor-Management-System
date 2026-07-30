@@ -1,9 +1,6 @@
-package com.ltr.controller;
+package com.ltr.user;
 
-import com.ltr.dao.UsersDao;
-import com.ltr.model.Users;
-import com.ltr.service.UsersService;
-import com.ltr.service.security.AuthService;
+import com.ltr.security.AuthService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;

@@ -1,10 +1,11 @@
 package com.ltr.controller;
 
-import com.ltr.model.security.LoginRequest;
-import com.ltr.model.security.RefreshToken;
-import com.ltr.model.security.UserSecurityDetails;
-import com.ltr.service.security.JwtService;
+import com.ltr.security.LoginRequest;
+import com.ltr.security.RefreshToken;
+import com.ltr.security.UserSecurityDetails;
+import com.ltr.security.JwtService;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -41,19 +42,21 @@ public class AuthController {
         ResponseCookie cookie = ResponseCookie.from("refreshToken", refreshToken)
                 .httpOnly(true)
                 .secure(false)
-                .sameSite("None")
-                .path("/auth/refreshtoken")
+                .sameSite("Lax")
+                .path("/auth")
                 .maxAge(Duration.ofDays(7))
                 .build();
-        response.addHeader("Set-Cookie", cookie.toString());
+        response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
         return ResponseEntity.ok(Map.of(
-                "message", "Login Successful",
-                "JToken", jwtToken
+                "message", "Login Successfully...",
+                "JToken", jwtToken,
+                "role", userSecurityDetails.getAuthorities().stream().findFirst()
         ));
     }
 
     @PostMapping("/refreshtoken")
     public ResponseEntity<?> refreshToken(@CookieValue("refreshToken") String refreshToken, HttpServletResponse response) {
+        System.out.println(refreshToken);
         System.out.println(refreshToken);
         RefreshToken refreshToken1 = jwt.verifyRefreshToken(refreshToken);
         String jwtToken = jwt.generateToken(new UserSecurityDetails(refreshToken1.getUser()));
@@ -61,8 +64,8 @@ public class AuthController {
         ResponseCookie cookie = ResponseCookie.from("refreshToken", refreshToken)
                 .httpOnly(true)
                 .secure(false)
-                .sameSite("None")
-                .path("/auth/refreshtoken")
+                .sameSite("Lax")
+                .path("/auth")
                 .maxAge(Duration.ofDays(7))
                 .build();
         response.addHeader("Set-Cookie", cookie.toString());
@@ -79,12 +82,12 @@ public class AuthController {
         ResponseCookie cookie = ResponseCookie.from("refreshToken", "")
                 .httpOnly(true)
                 .secure(false)
-                .path("/")
+                .path("/auth")
                 .maxAge(0)
                 .build();
         response.setHeader("Set-Cookie", cookie.toString());
         return ResponseEntity.ok(Map.of(
-                "message", "Logged Out successful",
+                "message", "Log Out successful...",
                 "token message", delMessage
         ));
     }
