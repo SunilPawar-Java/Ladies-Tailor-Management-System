@@ -1,10 +1,8 @@
 # Ladies Tailor Management System
-
 A full-stack web application for managing tailoring business operations.
 
 ## Overview
-
-The E-Commerce Platform is a full-stack web application designed to provide a seamless online shopping experience for customers while offering powerful product and order management capabilities for administrators. The application follows a modern client-server architecture, with a React-based frontend communicating with a Spring Boot REST API backend and PostgreSQL database.
+  The E-Commerce Platform is a full-stack web application designed to provide a seamless online shopping experience for customers while offering powerful product and order management capabilities for administrators. The application follows a modern client-server architecture, with a React-based frontend communicating with a Spring Boot REST API backend and PostgreSQL database.
 
 Customers can browse products, view detailed product information, add items to their cart, securely authenticate using JWT-based authentication, and place orders through a streamlined checkout process. Administrators can manage products, monitor inventory, and oversee customer orders through protected administrative endpoints.
 
@@ -30,26 +28,21 @@ The application serves as a practical implementation of a real-world e-commerce 
 - Axios
 
 ## Project Structure
-
 backend/ - Spring Boot REST API
-
 frontend/ - React Application
 
 ## Project Status
-
 🚧 This project is currently under development.
 
 ## Features Implemented
-
 - User Authentication
 - JWT Authorization
 - Role-Based Access Control
 - Product Management APIs
 - Order Management APIs
+- Razorpay Integration
 
 ## Upcoming Features
-
 - Cart Management
-- Razorpay Integration
 - Order Tracking
 - Admin Dashboard
